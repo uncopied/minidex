@@ -142,7 +142,7 @@ let indexerClient = new algosdk.Indexer(token, baseServer, port);
                     </div>
                     <Typography className={classes.typohraphy}>Edition: Epoch 1/8</Typography>
 
-                    <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography>
+                    {/* <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography> */}
                     <div className={classes.buttonDiv}>
                         <Button variant ="contained" color = "primary" onClick={sendEdition1}>Send Epoch edition 1</Button>
                     </div>
@@ -180,7 +180,7 @@ let indexerClient = new algosdk.Indexer(token, baseServer, port);
                     </div>
                     <Typography className={classes.typohraphy}>Edition: Epoch 2/8</Typography>
 
-                    <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography>
+                    {/* <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography> */}
                     <div className={classes.buttonDiv}>
                         <Button variant ="contained" color = "primary" onClick={sendEdition2}>Send Epoch edition 2</Button>
                     </div>
@@ -219,7 +219,7 @@ let indexerClient = new algosdk.Indexer(token, baseServer, port);
                     </div>
                     <Typography className={classes.typohraphy}>Edition: Epoch 3/8</Typography>
 
-                    <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography>
+                    {/* <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography> */}
                     <div className={classes.buttonDiv}>
                         <Button variant ="contained" color = "primary" onClick={sendEdition3}>Send Epoch edition 3</Button>
                     </div>
@@ -257,7 +257,7 @@ let indexerClient = new algosdk.Indexer(token, baseServer, port);
                     </div>
                     <Typography className={classes.typohraphy}>Edition: Epoch 4/8</Typography>
 
-                    <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography>
+                    {/* <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography> */}
                     <div className={classes.buttonDiv}>
                         <Button variant ="contained" color = "primary" onClick={sendEdition4}>Send Epoch edition 4</Button>
                     </div>
@@ -295,7 +295,7 @@ let indexerClient = new algosdk.Indexer(token, baseServer, port);
                     </div>
                     <Typography className={classes.typohraphy}>Edition: Epoch 5/8</Typography>
 
-                    <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography>
+                    {/* <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography> */}
                     <div className={classes.buttonDiv}>
                         <Button variant ="contained" color = "primary"  onClick={sendEdition5}>Send Epoch edition 5</Button>
                     </div>
@@ -332,7 +332,7 @@ let indexerClient = new algosdk.Indexer(token, baseServer, port);
                     </div>
                     <Typography className={classes.typohraphy}>Edition: Epoch 6/8</Typography>
 
-                    <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography>
+                    {/* <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography> */}
                     <div className={classes.buttonDiv}>
                         <Button variant ="contained" color = "primary"  onClick={sendEdition6}>Send Epoch edition 6</Button>
                     </div>
@@ -368,7 +368,7 @@ let indexerClient = new algosdk.Indexer(token, baseServer, port);
                     </div>
                     <Typography className={classes.typohraphy}>Edition: Epoch 7/8</Typography>
 
-                    <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography>
+                    {/* <Typography variant="subtitle1" className={classes.typohraphy}>Received : true</Typography> */}
                     <div className={classes.buttonDiv}>
                         <Button variant ="contained" color = "primary" onClick={sendEdition7}>Send Epoch edition 7</Button>
                     </div>
