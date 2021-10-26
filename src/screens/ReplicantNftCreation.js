@@ -67,8 +67,8 @@ function ReplicantNftCreation(){
                     </Button>
                     </Grid>
                     <Grid item xs = {6}  className = {classes.centerGridItem}>
-                    <Button onClick = {createRemaining4OfReplicantNFTs} variant ="contained" color="primary"  className = {classes.itemButton}>
-                            Create the remaining 4 of the Replicant Nfts
+                    <Button onClick = {createRemaining14OfReplicantNFTs} variant ="contained" color="primary"  className = {classes.itemButton}>
+                            Create the remaining 14 of the Replicant Nfts
                     </Button>
                     </Grid>
                     
@@ -79,8 +79,8 @@ function ReplicantNftCreation(){
                     </Button>
                     </Grid>
                     <Grid item xs = {6}  className = {classes.centerGridItem}>
-                    <Button onClick = {clawbackRemaining4OfReplicantNFTs} variant ="contained" color="primary"  className = {classes.itemButton}>
-                            Clawback the remaining 4 of the Replicant Nfts
+                    <Button onClick = {clawbackRemaining14OfReplicantNFTs} variant ="contained" color="primary"  className = {classes.itemButton}>
+                            Clawback the remaining 14 of the Replicant Nfts
                     </Button>
                     </Grid>
                 </Grid>
@@ -162,7 +162,7 @@ function ReplicantNftCreation(){
             }     
         
     }
-    async function createRemaining4OfReplicantNFTs(){
+    async function createRemaining14OfReplicantNFTs(){
         let myalgoconnect = new MyAlgoConnect();
         if(signerAddress.length == 0){
             setLoading(true)
@@ -310,7 +310,7 @@ function ReplicantNftCreation(){
              }    
 
     }
-   async function clawbackRemaining4OfReplicantNFTs(){
+   async function clawbackRemaining14OfReplicantNFTs(){
         let myalgoconnect = new MyAlgoConnect();
         if(signerAddress.length == 0){
             setLoading(true)
@@ -340,7 +340,7 @@ function ReplicantNftCreation(){
             setLoading(false);
         } 
         let txnsToSign = getAsaToClawbackInfo(params,epochAddress,epochAddress,epochAddress,epochAddress,epochAddress).map((el,index) => {
-            if(index >= 16 && index < 20){
+            if(index >= 16 && index < 29){
                 return el;
             }
         });
@@ -382,7 +382,6 @@ function ReplicantNftCreation(){
              return;
              }    
     }
-
 }
 const useStyles = makeStyles((theme) => ({
     root: {
