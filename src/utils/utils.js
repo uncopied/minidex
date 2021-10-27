@@ -68,205 +68,277 @@ export async function isConnected(addresses,myalgoconnect){
 
 export const replicantAsaInfo =[
     {
-        name:"TEST, \"test\", 2021; 1/5",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/C",
+        name:`EPOCH, "REPLICANTS," 1/20`,
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/R",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("73cd943cc7ef72d65d754662985412a4")),
+        metadataHash:new Uint8Array(Buffer.from("ade0c8cffa3e9744d03f28bacbcad7fa")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599509"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 2/5",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/D",
+        name:'EPOCH, "REPLICANTS," 2/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/S",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("ddea2b97093aeff0f5c2b262eb562322")),
+        metadataHash:new Uint8Array(Buffer.from("c2ee12c2130a1adb33fc9e6c5df2a6f9")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599550"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 3/5",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/E",
+        name:'EPOCH, "REPLICANTS," 3/20',
+        unit:"EPOCH",
+        url:"hhttps://api.uncopied.art/c/v/T",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("aaede09d0799f5693e9dd627a0e22ec4")),
+        metadataHash:new Uint8Array(Buffer.from("0df8673ca2baad10052770879f454182")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "UNCOPIED_ASA=243599602"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 4/5",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/F",
+        name:'EPOCH, "REPLICANTS," 4/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/U",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("bd2964d746eda8f42da3cdf21883bef3")),
+        metadataHash:new Uint8Array(Buffer.from("a44b20ee6eadae2a8566c98646f8953d")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "UNCOPIED_ASA=243599627"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 5/5",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/G",
+        name:'EPOCH, "REPLICANTS," 5/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/V",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("2cfc7e5bcb47fa235c1480c0b991fa76")),
+        metadataHash:new Uint8Array(Buffer.from("493b944add91650c343c667da1d2778a")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "UNCOPIED_ASA=243599673"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 1/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/H",
+        name:'EPOCH, "REPLICANTS," 6/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/W",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("6099c8bd6d3e9db82a72cbd40c8a1771")),
+        metadataHash:new Uint8Array(Buffer.from("2774e1768a91295e5f4a2c4196552766")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "UNCOPIED_ASA=243599716"))
+        note: new Uint8Array(Buffer.from( ""))
+    },
+    {
+        name:'EPOCH, "REPLICANTS," 7/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/X",
+        total:1,
+        metadataHash:new Uint8Array(Buffer.from("2dcdf8eea215622a3b3e3a57564a8e3f")),
+        decimals:0,
+        note: new Uint8Array(Buffer.from( ""))
+    },
+    {
+        name:'EPOCH, "REPLICANTS," 8/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/Y",
+        total:1,
+        metadataHash:new Uint8Array(Buffer.from("ce6dd633727e11f1d3dc11ec44200a4a")),
+        decimals:0,
+        note: new Uint8Array(Buffer.from( ""))
+    },
+    {
+        name:'EPOCH, "REPLICANTS," 9/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/Z",
+        total:1,
+        metadataHash:new Uint8Array(Buffer.from("57c5fb965fd5e75d4547096be05e62a5")),
+        decimals:0,
+        note: new Uint8Array(Buffer.from( ""))
+    },
+    {
+        name:'EPOCH, "REPLICANTS," 10/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/a",
+        total:1,
+        metadataHash:new Uint8Array(Buffer.from("193a34f7ef614104d0cc29e38317cadf")),
+        decimals:0,
+        note: new Uint8Array(Buffer.from( ""))
+    },
+    {
+        name:'EPOCH, "REPLICANTS," 11/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/b",
+        total:1,
+        metadataHash:new Uint8Array(Buffer.from("9800a1645372a1d00de5286bc92b3620")),
+        decimals:0,
+        note: new Uint8Array(Buffer.from( ""))
+    },
+    {
+        name:'EPOCH, "REPLICANTS," 12/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/c",
+        total:1,
+        metadataHash:new Uint8Array(Buffer.from("08239aa24a16d71e0cfcfea13ab78eb1")),
+        decimals:0,
+        note: new Uint8Array(Buffer.from( ""))
+    },
+    {
+        name:'EPOCH, "REPLICANTS," 13/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/d",
+        total:1,
+        metadataHash:new Uint8Array(Buffer.from("a069d6a47f72561e7e99394940eef53b")),
+        decimals:0,
+        note: new Uint8Array(Buffer.from( ""))
+    },
+    {
+        name:'EPOCH, "REPLICANTS," 14/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/e",
+        total:1,
+        metadataHash:new Uint8Array(Buffer.from("f1f63507e06a43f01d777d7dea867273")),
+        decimals:0,
+        note: new Uint8Array(Buffer.from( ""))
 
     },
     {
-        name:"TEST, \"test\", 2021; 2/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/I",
+        name:'EPOCH, "REPLICANTS," 15/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/f",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("4bb069bf9c6bcc6b728217d9b2851926")),
+        metadataHash:new Uint8Array(Buffer.from("e893d6016514d054ba9f8d02f10617e0")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "UNCOPIED_ASA=243599759"))
+        note: new Uint8Array(Buffer.from( ""))
 
     },
     {
-        name:"TEST, \"test\", 2021; 3/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/J",
+        name:'EPOCH, "REPLICANTS," 16/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/g",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("afabe9c45b609bcf4382f8e624174ebb")),
+        metadataHash:new Uint8Array(Buffer.from("df3cdeebfe1ef4306244dcad8a31bd17")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "UNCOPIED_ASA=243599805"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 4/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/K",
+        name:'EPOCH, "REPLICANTS," 17/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/h",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("d457a5ba58fb2e6cb09ab76dee991165")),
+        metadataHash:new Uint8Array(Buffer.from("c3cb26cc3a850343a7adf98d34cb2ebe")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "UNCOPIED_ASA=243599860"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 5/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/L",
+        name:'EPOCH, "REPLICANTS," 18/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/i",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("0bff9605a2874529628bfa681a8dc586")),
+        metadataHash:new Uint8Array(Buffer.from("e2ab0dcc6dd7ed08702d7f99b43bfcfd")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599905"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 6/8 TP" ,
-        unit:"TEST",
-        url:"https://test.text.test/c/v/M",
+        name:'EPOCH, "REPLICANTS," 19/20' ,
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/j",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("603dbf8fff0239be23d3984e0bb152d5")),
+        metadataHash:new Uint8Array(Buffer.from("f30cf70d2f5f96fa66f9337674106c77")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599951"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 7/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/N",
+        name:'EPOCH, "REPLICANTS," 20/20',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/k",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("b13f3cd280641cbe6055ab33341aef2e")),
+        metadataHash:new Uint8Array(Buffer.from("c06c6f36a68e6db14227e83d72a241f6")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599983"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 8/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/O",
+        name:'EPOCH, "REPLICANTS," 1/10 AP',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/l",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("41bd0ef4a8589852c83f2ca5d2e39da1")),
+        metadataHash:new Uint8Array(Buffer.from("68ee4013dd013439022559a56be3f258")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243600015"))
+        note: new Uint8Array(Buffer.from( ""))
     },  
     {
-        name:"TEST, \"test\", 2021; 6/8 TP" ,
-        unit:"TEST",
-        url:"https://test.text.test/c/v/M",
+        name:'EPOCH, "REPLICANTS," 2/10 AP' ,
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/m",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("603dbf8fff0239be23d3984e0bb152d5")),
+        metadataHash:new Uint8Array(Buffer.from("b29804cf8204806934e996fba6163174")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599951"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 7/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/N",
+        name:'EPOCH, "REPLICANTS," 3/10 AP',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/n",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("b13f3cd280641cbe6055ab33341aef2e")),
+        metadataHash:new Uint8Array(Buffer.from("26a7b7b04ae7d90de6bfb43bde23a34b")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599983"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 8/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/O",
+        name:'EPOCH, "REPLICANTS," 4/10 AP',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/o",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("41bd0ef4a8589852c83f2ca5d2e39da1")),
+        metadataHash:new Uint8Array(Buffer.from("720fea36a4928468c1964f7353ae17c7")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243600015"))
+        note: new Uint8Array(Buffer.from( ""))
     },  
 
     {
-        name:"TEST, \"test\", 2021; 6/8 TP" ,
-        unit:"TEST",
-        url:"https://test.text.test/c/v/M",
+        name:'EPOCH, "REPLICANTS," 5/10 AP' ,
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/p",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("603dbf8fff0239be23d3984e0bb152d5")),
+        metadataHash:new Uint8Array(Buffer.from("759e329bf37330a58be15a90aa909136")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599951"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 7/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/N",
+        name:'EPOCH, "REPLICANTS," 6/10 AP',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/q",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("b13f3cd280641cbe6055ab33341aef2e")),
+        metadataHash:new Uint8Array(Buffer.from("24f0b1122f8b7c3fb23c72120868f6fb")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599983"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 8/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/O",
+        name:'EPOCH, "REPLICANTS," 7/10 AP',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/r",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("41bd0ef4a8589852c83f2ca5d2e39da1")),
+        metadataHash:new Uint8Array(Buffer.from("6d02874a0dac7ca9f633156808b818f3")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243600015"))
+        note: new Uint8Array(Buffer.from( ""))
     },  
     {
-        name:"TEST, \"test\", 2021; 6/8 TP" ,
-        unit:"TEST",
-        url:"https://test.text.test/c/v/M",
+        name:'EPOCH, "REPLICANTS," 8/10 AP' ,
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/s",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("603dbf8fff0239be23d3984e0bb152d5")),
+        metadataHash:new Uint8Array(Buffer.from("f1cde5d61ea606ccf3673eca97a47dc7")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599951"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 7/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/N",
+        name:'EPOCH, "REPLICANTS," 9/10 AP',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/t",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("b13f3cd280641cbe6055ab33341aef2e")),
+        metadataHash:new Uint8Array(Buffer.from("2ebddddf90bc009250ce8404805033c1")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243599983"))
+        note: new Uint8Array(Buffer.from( ""))
     },
     {
-        name:"TEST, \"test\", 2021; 8/8 TP",
-        unit:"TEST",
-        url:"https://test.text.test/c/v/O",
+        name:'EPOCH, "REPLICANTS," 10/10 AP',
+        unit:"EPOCH",
+        url:"https://api.uncopied.art/c/v/u",
         total:1,
-        metadataHash:new Uint8Array(Buffer.from("41bd0ef4a8589852c83f2ca5d2e39da1")),
+        metadataHash:new Uint8Array(Buffer.from("ad73a489fe67dbf6ffb508f37ba9483d")),
         decimals:0,
-        note: new Uint8Array(Buffer.from( "TEST_ASA=243600015"))
+        note: new Uint8Array(Buffer.from( ""))
     },  
 
 ]

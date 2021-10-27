@@ -126,7 +126,7 @@ function ReplicantNftCreation(){
         console.log(params);
         let txnsToSign = [];
         replicantAsaInfo.map((el,index) => {
-            if(index < 8){
+            if(index < 16){
                 txnsToSign.push(createAsa(params, epochAddress, el.name, el.unit ,el.decimals, el.total, el.url, epochAddress, epochAddress, epochAddress, true, el.metadataHash, el.note))
             }  
         })
@@ -424,7 +424,7 @@ function ReplicantNftCreation(){
                 const { accounts } = payload.params[0];
                 console.log(accounts,"connect");
                 replicantAsaInfo.map((el,index) => {
-                    if(index < 8){
+                    if(index < 16){
                         txns.push(algosdk.makeAssetCreateTxnWithSuggestedParams(accounts[0], el.note,
                             el.total, el.decimals, true, accounts[0], accounts[0], accounts[0],
                             accounts[0], el.unit, el.name, el.url, el.metadataHash, params));
@@ -757,7 +757,7 @@ function ReplicantNftCreation(){
                 const { accounts } = payload.params[0];
                 console.log(accounts,"connect");
                 getAsaToClawbackInfo(params,accounts[0],accounts[0],accounts[0],accounts[0],accounts[0]).map((el,index) => {
-                    if(index < 8){
+                    if(index < 16){
                         txns.push(algosdk.makeAssetConfigTxnWithSuggestedParams(accounts[0], el.note, 
                             el.assetIndex, accounts[0], accounts[0], accounts[0], accounts[0], params));
                     }  
