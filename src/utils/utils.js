@@ -272,7 +272,8 @@ export const replicantAsaInfo =[
 ]
 
 export function getAsaToClawbackInfo(params,sender, assetFreeze,assetManager,assetReserve,assetClawback){
-    const asaArray = [40391330,40391329,40391328,40391327,40391326,40391325,40391324,40391323]
+    const asaArray = [41175594,41175593,41175592,41175591,41175590,41175589,41175588
+        ,41175587]
     let asaInfos = asaArray.map(el => {
         return {
             ...params,

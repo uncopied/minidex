@@ -12,6 +12,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import WalletConnect from "@walletconnect/client";
+import QRCodeModal from "algorand-walletconnect-qrcode-modal";
+import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 import { Buffer } from 'buffer';
 import Home from './Home';
 import {createAsa,clawbackAsa,connectToWallet,isConnected,replicantAsaInfo,getAsaToClawbackInfo} from '../utils/utils';
@@ -62,24 +65,24 @@ function ReplicantNftCreation(){
                         </Paper>
                     </Grid>
                     <Grid item xs = {6} className = {classes.centerGridItem}>
-                    <Button onClick = {create16OfReplicantNFTs} variant ="contained" color="primary"  className = {classes.itemButton}>
-                            Create 16 of the Replicant Nfts
+                    <Button onClick = {create16OfReplicantNftsUsingWalletConnect} variant ="contained" color="primary"  className = {classes.itemButton}>
+                            Create 16 of the Replicant Nfts 
                     </Button>
                     </Grid>
                     <Grid item xs = {6}  className = {classes.centerGridItem}>
-                    <Button onClick = {createRemaining14OfReplicantNFTs} variant ="contained" color="primary"  className = {classes.itemButton}>
+                    <Button onClick = {create14OfReplicantNftsUsingWalletConnect} variant ="contained" color="primary"  className = {classes.itemButton}>
                             Create the remaining 14 of the Replicant Nfts
                     </Button>
                     </Grid>
                     
 
                     <Grid item xs = {6} className = {classes.centerGridItem}>
-                    <Button onClick = {clawback16OfReplicantNFTs} variant ="contained" color="primary"  className = {classes.itemButton}>
+                    <Button onClick = {clawback16OfReplicantNftsUsingWalletConnect} variant ="contained" color="primary"  className = {classes.itemButton}>
                             Clawback 16 of the Replicant Nfts
                     </Button>
                     </Grid>
                     <Grid item xs = {6}  className = {classes.centerGridItem}>
-                    <Button onClick = {clawbackRemaining14OfReplicantNFTs} variant ="contained" color="primary"  className = {classes.itemButton}>
+                    <Button onClick = {clawback14OfReplicantNftsUsingWalletConnect} variant ="contained" color="primary"  className = {classes.itemButton}>
                             Clawback the remaining 14 of the Replicant Nfts
                     </Button>
                     </Grid>
@@ -87,7 +90,11 @@ function ReplicantNftCreation(){
             </div>);
 
 
-   async function create16OfReplicantNFTs(){
+    async function Create16OfReplicantNft(){
+
+    }
+
+   async function create16OfReplicantNFTsUsingMyAlgo(){
         let myalgoconnect = new MyAlgoConnect();
         if(signerAddress.length == 0){
             setLoading(true)
@@ -119,7 +126,7 @@ function ReplicantNftCreation(){
         console.log(params);
         let txnsToSign = [];
         replicantAsaInfo.map((el,index) => {
-            if(index<8){
+            if(index < 8){
                 txnsToSign.push(createAsa(params, epochAddress, el.name, el.unit ,el.decimals, el.total, el.url, epochAddress, epochAddress, epochAddress, true, el.metadataHash, el.note))
             }  
         })
@@ -141,7 +148,7 @@ function ReplicantNftCreation(){
         }
         let blobs = signedTxns.map((el,index)=>{
             return el.blob
-        })
+        });
         console.log(blobs);
        
         let txTest={};
@@ -194,7 +201,7 @@ function ReplicantNftCreation(){
         console.log(params);
         let txnsToSign = [];
         replicantAsaInfo.map((el,index) => {
-            if(index >= 16 && index < 20){
+            if(index >= 16 && index < 30){
                 txnsToSign.push(createAsa(params, epochAddress, el.name, el.unit ,el.decimals, el.total, el.url, epochAddress, epochAddress, epochAddress, true, el.metadataHash, el.note))
             }  
         })
@@ -340,7 +347,7 @@ function ReplicantNftCreation(){
             setLoading(false);
         } 
         let txnsToSign = getAsaToClawbackInfo(params,epochAddress,epochAddress,epochAddress,epochAddress,epochAddress).map((el,index) => {
-            if(index >= 16 && index < 29){
+            if(index >= 16 && index < 30){
                 return el;
             }
         });
@@ -381,6 +388,448 @@ function ReplicantNftCreation(){
              setLoading(false);
              return;
              }    
+    }
+
+    async function create16OfReplicantNftsUsingWalletConnect(){
+        setLoading(true)
+        let txns = [];
+        let params = {}
+        try{
+            params = await client.getTransactionParams().do();
+        }catch(error){
+            controlDialog(true);
+            setDialogTitle("Error");
+            setDialogDescription(JSON.stringify(error));
+            setLoading(false);
+        } 
+        console.log(params)
+        const connector = new WalletConnect({
+            bridge: "https://bridge.walletconnect.org", // Required
+            qrcodeModal: QRCodeModal,
+          });
+
+          // Check if connection is already established
+            if (!connector.connected) {
+                // create new session
+                connector.createSession();
+            }
+            
+            // Subscribe to connection events
+            connector.on("connect", async(error, payload) => {
+                if (error) {
+                throw error;
+                }
+            try {
+                // Get provided accounts
+                const { accounts } = payload.params[0];
+                console.log(accounts,"connect");
+                replicantAsaInfo.map((el,index) => {
+                    if(index < 8){
+                        txns.push(algosdk.makeAssetCreateTxnWithSuggestedParams(accounts[0], el.note,
+                            el.total, el.decimals, true, accounts[0], accounts[0], accounts[0],
+                            accounts[0], el.unit, el.name, el.url, el.metadataHash, params));
+                    }  
+                });
+
+                console.log(txns,"txns");
+
+
+                let groupId = algosdk.computeGroupID(txns);
+                txns = txns.map((el) => {
+                         el.group=groupId;
+                         return el;
+                         });
+
+                const txnsToSign = txns.map(txn => {
+                    const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString("base64");
+                    return {
+                      txn: encodedTxn,
+                      message: 'Description of transaction being signed',
+                    };
+                  });
+                  console.log(txnsToSign,"txnsTosIGN")
+                  const requestParams = [txnsToSign];
+                  console.log(requestParams);
+                  const request = formatJsonRpcRequest("algo_signTxn", requestParams);
+                  console.log(request,"request");
+                 const result = await connector.sendCustomRequest(request);
+                  console.log(result,"Result");
+                  const decodedResult = result.map(element => {
+                    return element ? new Uint8Array(Buffer.from(element, "base64")) : null;
+                  });
+
+                  console.log(decodedResult,"decoded result");
+                  let txTest={};
+                  connector.killSession();
+                      txTest=(await client.sendRawTransaction(decodedResult).do());
+                      console.log(txTest);
+                      setLoading(false);
+                      controlDialog(true);
+                      setDialogTitle("Transaction Success");
+                      setDialogDescription(JSON.stringify(`Transaction successful with transaction id: ${txTest.txId}`));
+                }catch(error){
+                    connector.killSession();
+                    console.error(error);
+                    console.error("Error ocurred ", error);
+                      controlDialog(true);
+                      setDialogTitle("Error");
+                      setDialogDescription(JSON.stringify(error));
+                      setLoading(false);
+                  
+                }
+              
+            });
+
+            connector.on("session_update", (error, payload) => {
+                if (error) {
+                  throw error;
+                }
+              
+                // Get updated accounts 
+                const { accounts } = payload.params[0];
+                console.log(accounts,"session_update");
+              });
+
+            connector.on("disconnect", (error, payload) => {
+                if (error) {
+                  throw error;
+                }
+                console.log(payload,"disconnect")
+              });
+              
+            //   connector.killSession();
+    }
+
+
+    async function create14OfReplicantNftsUsingWalletConnect(){
+        setLoading(true);
+        let txns = [];
+        let params = {}
+        try{
+            params = await client.getTransactionParams().do();
+        }catch(error){
+            controlDialog(true);
+            setDialogTitle("Error");
+            setDialogDescription(JSON.stringify(error));
+            setLoading(false);
+        } 
+        console.log(params)
+        const connector = new WalletConnect({
+            bridge: "https://bridge.walletconnect.org", // Required
+            qrcodeModal: QRCodeModal,
+          });
+
+          // Check if connection is already established
+            if (!connector.connected) {
+                // create new session
+                connector.createSession();
+            }
+            
+            // Subscribe to connection events
+            connector.on("connect", async(error, payload) => {
+                if (error) {
+                throw error;
+                }
+            try {
+                // Get provided accounts
+                const { accounts } = payload.params[0];
+                console.log(accounts,"connect");
+                replicantAsaInfo.map((el,index) => {
+                    if(index >= 16 && index < 30){
+                        txns.push(algosdk.makeAssetCreateTxnWithSuggestedParams(accounts[0], el.note,
+                            el.total, el.decimals, true, accounts[0], accounts[0], accounts[0],
+                            accounts[0], el.unit, el.name, el.url, el.metadataHash, params));
+                    }  
+                });
+
+                console.log(txns,"txns");
+
+
+                let groupId = algosdk.computeGroupID(txns);
+                txns = txns.map((el) => {
+                         el.group=groupId;
+                         return el;
+                         });
+
+                const txnsToSign = txns.map(txn => {
+                    const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString("base64");
+                    return {
+                      txn: encodedTxn,
+                      message: 'Description of transaction being signed',
+                    };
+                  });
+                  console.log(txnsToSign,"txnsTosIGN")
+                  const requestParams = [txnsToSign];
+                  console.log(requestParams);
+                  const request = formatJsonRpcRequest("algo_signTxn", requestParams);
+                  console.log(request,"request");
+                 const result = await connector.sendCustomRequest(request);
+                  console.log(result,"Result");
+                  const decodedResult = result.map(element => {
+                    return element ? new Uint8Array(Buffer.from(element, "base64")) : null;
+                  });
+
+                  console.log(decodedResult,"decoded result");
+                  let txTest={};
+                  connector.killSession();
+                      txTest=(await client.sendRawTransaction(decodedResult).do());
+                      console.log(txTest);
+                      setLoading(false);
+                      controlDialog(true);
+                      setDialogTitle("Transaction Success");
+                      setDialogDescription(JSON.stringify(`Transaction successful with transaction id: ${txTest.txId}`));
+                }catch(error){
+                    connector.killSession();
+                    console.error(error);
+                    console.error("Error ocurred ", error);
+                      controlDialog(true);
+                      setDialogTitle("Error");
+                      setDialogDescription(JSON.stringify(error));
+                      setLoading(false);
+                  
+                }
+               
+            });
+
+            connector.on("session_update", (error, payload) => {
+                if (error) {
+                  throw error;
+                }
+              
+                // Get updated accounts 
+                const { accounts } = payload.params[0];
+                console.log(accounts,"session_update");
+              });
+
+            connector.on("disconnect", (error, payload) => {
+                if (error) {
+                  throw error;
+                }
+                console.log(payload,"disconnect")
+              });
+              
+            //   connector.killSession();
+    }
+
+    async function clawback14OfReplicantNftsUsingWalletConnect(){
+        setLoading(true);
+        let txns = [];
+        let params = {}
+        try{
+            params = await client.getTransactionParams().do();
+        }catch(error){
+            controlDialog(true);
+            setDialogTitle("Error");
+            setDialogDescription(JSON.stringify(error));
+            setLoading(false);
+        } 
+        console.log(params)
+        const connector = new WalletConnect({
+            bridge: "https://bridge.walletconnect.org", // Required
+            qrcodeModal: QRCodeModal,
+          });
+
+          // Check if connection is already established
+            if (!connector.connected) {
+                // create new session
+                connector.createSession();
+            }
+            
+            // Subscribe to connection events
+            connector.on("connect", async(error, payload) => {
+                if (error) {
+                throw error;
+                }
+            try {
+                // Get provided accounts
+                const { accounts } = payload.params[0];
+                console.log(accounts,"connect");
+                getAsaToClawbackInfo(params,accounts[0],accounts[0],accounts[0],accounts[0],accounts[0]).map((el,index) => {
+                    if(index >= 16 && index < 30){
+                        txns.push(algosdk.makeAssetConfigTxnWithSuggestedParams(accounts[0], el.note, 
+                            el.assetIndex, accounts[0], accounts[0], accounts[0], accounts[0], params));
+                    }  
+                });
+
+                console.log(txns,"txns");
+
+
+                let groupId = algosdk.computeGroupID(txns);
+                txns = txns.map((el) => {
+                         el.group=groupId;
+                         return el;
+                         });
+
+                const txnsToSign = txns.map(txn => {
+                    const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString("base64");
+                    return {
+                      txn: encodedTxn,
+                      message: 'Description of transaction being signed',
+                    };
+                  });
+                  console.log(txnsToSign,"txnsTosIGN")
+                  const requestParams = [txnsToSign];
+                  console.log(requestParams);
+                  const request = formatJsonRpcRequest("algo_signTxn", requestParams);
+                  console.log(request,"request");
+                 const result = await connector.sendCustomRequest(request);
+                  console.log(result,"Result");
+                  const decodedResult = result.map(element => {
+                    return element ? new Uint8Array(Buffer.from(element, "base64")) : null;
+                  });
+
+                  console.log(decodedResult,"decoded result");
+                  let txTest={};
+                  connector.killSession();
+                      txTest=(await client.sendRawTransaction(decodedResult).do());
+                      console.log(txTest);
+                      setLoading(false);
+                      controlDialog(true);
+                      setDialogTitle("Transaction Success");
+                      setDialogDescription(JSON.stringify(`Transaction successful with transaction id: ${txTest.txId}`));
+                }catch(error){
+                    connector.killSession();
+                    console.error(error);
+                    console.error("Error ocurred ", error);
+                      controlDialog(true);
+                      setDialogTitle("Error");
+                      setDialogDescription(JSON.stringify(error));
+                      setLoading(false);
+                  
+                }
+               
+            });
+
+            connector.on("session_update", (error, payload) => {
+                if (error) {
+                  throw error;
+                }
+              
+                // Get updated accounts 
+                const { accounts } = payload.params[0];
+                console.log(accounts,"session_update");
+              });
+
+            connector.on("disconnect", (error, payload) => {
+                if (error) {
+                  throw error;
+                }
+                console.log(payload,"disconnect")
+              });
+              
+            //   connector.killSession();
+    }
+
+
+
+
+    async function clawback16OfReplicantNftsUsingWalletConnect(){
+        setLoading(true);
+        let txns = [];
+        let params = {}
+        try{
+            params = await client.getTransactionParams().do();
+        }catch(error){
+            controlDialog(true);
+            setDialogTitle("Error");
+            setDialogDescription(JSON.stringify(error));
+            setLoading(false);
+        } 
+        console.log(params)
+        const connector = new WalletConnect({
+            bridge: "https://bridge.walletconnect.org", // Required
+            qrcodeModal: QRCodeModal,
+          });
+
+          // Check if connection is already established
+            if (!connector.connected) {
+                // create new session
+                connector.createSession();
+            }
+            
+            // Subscribe to connection events
+            connector.on("connect", async(error, payload) => {
+                if (error) {
+                throw error;
+                }
+            try {
+                // Get provided accounts
+                const { accounts } = payload.params[0];
+                console.log(accounts,"connect");
+                getAsaToClawbackInfo(params,accounts[0],accounts[0],accounts[0],accounts[0],accounts[0]).map((el,index) => {
+                    if(index < 8){
+                        txns.push(algosdk.makeAssetConfigTxnWithSuggestedParams(accounts[0], el.note, 
+                            el.assetIndex, accounts[0], accounts[0], accounts[0], accounts[0], params));
+                    }  
+                });
+
+                console.log(txns,"txns");
+
+
+                let groupId = algosdk.computeGroupID(txns);
+                txns = txns.map((el) => {
+                         el.group=groupId;
+                         return el;
+                         });
+
+                const txnsToSign = txns.map(txn => {
+                    const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString("base64");
+                    return {
+                      txn: encodedTxn,
+                      message: 'Description of transaction being signed',
+                    };
+                  });
+                  console.log(txnsToSign,"txnsTosIGN")
+                  const requestParams = [txnsToSign];
+                  console.log(requestParams);
+                  const request = formatJsonRpcRequest("algo_signTxn", requestParams);
+                  console.log(request,"request");
+                 const result = await connector.sendCustomRequest(request);
+                  console.log(result,"Result");
+                  const decodedResult = result.map(element => {
+                    return element ? new Uint8Array(Buffer.from(element, "base64")) : null;
+                  });
+
+                  console.log(decodedResult,"decoded result");
+                  let txTest={};
+                  connector.killSession();
+                      txTest=(await client.sendRawTransaction(decodedResult).do());
+                      console.log(txTest);
+                      setLoading(false);
+                      controlDialog(true);
+                      setDialogTitle("Transaction Success");
+                      setDialogDescription(JSON.stringify(`Transaction successful with transaction id: ${txTest.txId}`));
+                }catch(error){
+                    connector.killSession();
+                    console.error(error);
+                    console.error("Error ocurred ", error);
+                      controlDialog(true);
+                      setDialogTitle("Error");
+                      setDialogDescription(JSON.stringify(error));
+                      setLoading(false);
+                  
+                }
+               
+            });
+
+            connector.on("session_update", (error, payload) => {
+                if (error) {
+                  throw error;
+                }
+              
+                // Get updated accounts 
+                const { accounts } = payload.params[0];
+                console.log(accounts,"session_update");
+              });
+
+            connector.on("disconnect", (error, payload) => {
+                if (error) {
+                  throw error;
+                }
+                console.log(payload,"disconnect")
+              });
+              
+            //   connector.killSession();
     }
 }
 const useStyles = makeStyles((theme) => ({
@@ -456,3 +905,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default ReplicantNftCreation;
+
+
+
