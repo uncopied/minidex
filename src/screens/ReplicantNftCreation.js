@@ -24,8 +24,8 @@ function ReplicantNftCreation(){
     let signerAddress = []
     let epochAddress = "VTAUB5LOVTWKXICWEDBO5UG2JNNGEW7ULRB4PQB23DGRKSAXDVPORQNZJE";
     const token = { 'X-API-Key':'QIbtJ2qVvz8IUKIJiprmm2pRf2yutg14eOS98d15'};
-    const server = "https://testnet-algorand.api.purestake.io/ps2";
-    const baseServer = "https://testnet-algorand.api.purestake.io/idx2";
+    const server = "https://mainnet-algorand.api.purestake.io/ps2";
+    const baseServer = "https://mainnet-algorand.api.purestake.io/idx2";
     const port = '';
     const client = new algosdk.Algodv2(token, server, port);
     let indexerClient = new algosdk.Indexer(token, baseServer, port);
