@@ -647,7 +647,7 @@ function ReplicantNftCreation(){
                 getAsaToClawbackInfo(params,accounts[0],accounts[0],accounts[0],accounts[0],accounts[0]).map((el,index) => {
                     if(index >= 16 && index < 30){
                         txns.push(algosdk.makeAssetConfigTxnWithSuggestedParams(accounts[0], el.note, 
-                            el.assetIndex, accounts[0], accounts[0], accounts[0], accounts[0], params));
+                            el.assetIndex, accounts[0], accounts[0], accounts[0], el.assetClawback, params));
                     }  
                 });
 
@@ -757,10 +757,10 @@ function ReplicantNftCreation(){
                 const { accounts } = payload.params[0];
                 console.log(accounts,"connect");
                 getAsaToClawbackInfo(params,accounts[0],accounts[0],accounts[0],accounts[0],accounts[0]).map((el,index) => {
-                    // if(index < 16){
+                    if(index < 16){
                         txns.push(algosdk.makeAssetConfigTxnWithSuggestedParams(accounts[0], el.note, 
                             el.assetIndex, accounts[0], accounts[0], accounts[0], el.assetClawback, params));
-                    // }  
+                    }  
                 });
 
                 console.log(txns,"txns");
@@ -827,6 +827,7 @@ function ReplicantNftCreation(){
                   throw error;
                 }
                 console.log(payload,"disconnect")
+                // connector.killSession();
               });
               
             //   connector.killSession();
