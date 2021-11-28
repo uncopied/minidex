@@ -18,6 +18,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import CartIcon from '@material-ui/icons/ShoppingCart';
 import ApSales from './screens/ApSales';
 import ReplicantNftCreation from './screens/ReplicantNftCreation';
+import ManageReplicantNft from './screens/ManageReplicantNft';
 import Home from './screens/Home';
 
 import {BrowserRouter as Router,Switch,Route, useHistory} from 'react-router-dom';
@@ -94,6 +95,14 @@ function App(props) {
            return (<ReplicantNftCreation/>)
              }}
             </Route>
+
+            <Route path = "/replicant-manage">
+             {() =>  {
+              setPageTitle('Manage Replicant Nft');
+           return (<ManageReplicantNft/>)
+             }}
+            </Route>
+
             <Route path = "/apsales">
               <ApSales/>
             </Route>

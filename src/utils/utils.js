@@ -394,3 +394,690 @@ export function getAsaToClawbackInfo(params,sender, assetFreeze,assetManager,ass
     });
     return asaInfos;
 } 
+
+export async function compileReplicantProgram(client){
+    const replicantSource=`#pragma version 4
+
+    int 0
+    txn ApplicationID
+    ==
+    bnz creation
+    
+    int UpdateApplication
+    txn OnCompletion
+    ==
+    bnz updateApp
+    
+    int DeleteApplication
+    txn OnCompletion
+    ==
+    bnz DeleteApp
+    
+    //=== Condition to freeze or unfreeze contract
+    txn ApplicationArgs 0
+    byte "unfreeze_contract"
+    ==
+    bnz unfreeze_contract
+    
+    txn ApplicationArgs 0
+    byte "freeze_contract"
+    ==
+    bnz freeze_contract
+    
+    
+    //Check if contract is frozen
+    byte "contract_frozen"
+    app_global_get
+    int 1
+    ==
+    bnz contract_frozen
+    
+    txn ApplicationArgs 0
+    byte "set_price"
+    ==
+    bnz set_price
+    
+    //======Condition to decide if an NFT should be sent to an artist for free=====
+    txn ApplicationArgs 0
+    byte "sell_nft"
+    ==
+    byte "creator"
+    app_global_get
+    gtxn 0 AssetSender
+    ==
+    &&
+    byte "ap_edition"
+    app_global_get
+    int 1
+    ==
+    &&
+    byte "ap_artist"
+    app_global_get
+    gtxn 0 AssetReceiver
+    ==
+    &&
+    byte "tx_sent_to_artist"
+    app_global_get
+    int 0
+    ==
+    &&
+    bnz send_tx_to_artist
+    
+    //=== Condition to check for secondary sale or primary sale
+    txn ApplicationArgs 0
+    byte "sell_nft"
+    ==
+    byte "creator"
+    app_global_get
+    gtxn 0 AssetSender
+    ==
+    &&
+    bnz primary_sale_txn
+    
+    txn ApplicationArgs 0
+    byte "sell_nft"
+    ==
+    byte "creator"
+    app_global_get
+    gtxn 0 AssetSender
+    !=
+    &&
+    bnz secondary_sale_txn
+    
+    
+    
+    
+    
+    
+    secondary_sale_txn:
+    global GroupSize
+    int 14
+    ==
+    gtxn  0 AssetAmount
+    int 1
+    ==
+    &&
+    byte "asset_id"
+    app_global_get
+    gtxn 0 XferAsset
+    ==
+    &&
+    byte "price"
+    app_global_get
+    int 0
+    !=
+    &&
+    gtxn 0 AssetSender
+    gtxn 2 Receiver
+    ==
+    &&
+    byte "creator"
+    app_global_get
+    gtxn 3 Receiver
+    ==
+    &&
+    byte "Gordon"
+    app_global_get
+    gtxn 4 Receiver
+    ==
+    &&
+    byte "Galath3a"
+    app_global_get
+    gtxn 5 Receiver
+    ==
+    &&
+    byte "Hung"
+    app_global_get
+    gtxn 6 Receiver
+    ==
+    &&
+    byte "Keiken"
+    app_global_get
+    gtxn 7 Receiver
+    ==
+    &&
+    byte "Katja"
+    app_global_get
+    gtxn 8 Receiver
+    ==
+    &&
+    byte "Jennifer"
+    app_global_get
+    gtxn 9 Receiver
+    ==
+    &&
+    byte "Woo"
+    app_global_get
+    gtxn 10 Receiver
+    ==
+    &&
+    byte "Qianqian"
+    app_global_get
+    gtxn 11 Receiver
+    ==
+    &&
+    byte "Konrad"
+    app_global_get
+    gtxn 12 Receiver
+    ==
+    &&
+    gtxn 2 Amount
+    gtxn 3 Amount
+    +
+    gtxn 4 Amount
+    +
+    gtxn 5 Amount
+    +
+    gtxn 6 Amount
+    +
+    gtxn 7 Amount
+    +
+    gtxn 8 Amount
+    +
+    gtxn 9 Amount
+    +
+    gtxn 10 Amount
+    +
+    gtxn 11 Amount
+    +
+    gtxn 12 Amount
+    +
+    gtxn 13 Amount
+    +
+    store 10
+    int 100000
+    store 11
+    int 2000
+    store 12
+    byte "price"
+    app_global_get
+    load 10
+    ==
+    &&
+    gtxn 2 Amount
+    load 11
+    *
+    load 10
+    /
+    int 79000
+    ==
+    &&
+    gtxn 3 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    ==
+    &&
+    gtxn 4 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    ==
+    &&
+    gtxn 5 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    ==
+    &&
+    gtxn 6 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    ==
+    &&
+    gtxn 7 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    ==
+    &&
+    gtxn 8 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    ==
+    &&
+    gtxn 9 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    ==
+    &&
+    gtxn 10 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    ==
+    &&
+    gtxn 11 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    ==
+    &&
+    gtxn 12 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    ==
+    gtxn 13 Amount
+    load 11
+    *
+    load 10
+    /
+    int 1000
+    ==
+    &&
+    //Save new owner
+    byte "owner"
+    gtxn 0 AssetReceiver
+    app_global_put
+    //Freeze contract
+    byte "contract_frozen"
+    int 1
+    app_global_put
+    return
+    
+    
+    
+    //== Primary Sale transaction
+    primary_sale_txn:
+    global GroupSize 
+    int 12
+    ==
+    gtxn 0 AssetAmount
+    int 1
+    ==
+    &&
+    byte "asset_id"
+    app_global_get
+    gtxn 0 XferAsset
+    ==
+    &&
+    gtxn 2 Receiver
+    gtxn 0 AssetSender
+    ==
+    &&
+    byte "creator"
+    app_global_get
+    gtxn 2 Receiver
+    ==
+    &&
+    byte "Gordon"
+    app_global_get
+    gtxn 3 Receiver
+    ==
+    &&
+    byte "Galath3a"
+    app_global_get
+    gtxn 4 Receiver
+    ==
+    &&
+    byte "Hung"
+    app_global_get
+    gtxn 5 Receiver
+    ==
+    &&
+    byte "Keiken"
+    app_global_get
+    gtxn 6 Receiver
+    ==
+    &&
+    byte "Katja"
+    app_global_get
+    gtxn 7 Receiver
+    ==
+    &&
+    byte "Jennifer"
+    app_global_get
+    gtxn 8 Receiver
+    ==
+    &&
+    byte "Woo"
+    app_global_get
+    gtxn 9 Receiver
+    ==
+    &&
+    byte "Qianqian"
+    app_global_get
+    gtxn 10 Receiver
+    ==
+    &&
+    byte "Konrad"
+    app_global_get
+    gtxn 11 Receiver
+    ==
+    &&
+    gtxn 2 Amount
+    gtxn 3 Amount
+    +
+    gtxn 4 Amount
+    +
+    gtxn 5 Amount
+    +
+    gtxn 6 Amount
+    +
+    gtxn 7 Amount
+    +
+    gtxn 8 Amount
+    +
+    gtxn 9 Amount
+    +
+    gtxn 10 Amount
+    +
+    gtxn 11 Amount
+    +
+    store 10
+    int 100000
+    store 11
+    int 7777
+    store 12
+    load 10
+    int 2424000000
+    >=
+    &&
+    gtxn 2 Amount
+    load 11
+    *
+    load 10
+    /
+    int 30000
+    >=
+    &&
+    gtxn 3 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    >=
+    &&
+    gtxn 4 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    >=
+    &&
+    gtxn 5 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    >=
+    &&
+    gtxn 6 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    >=
+    &&
+    gtxn 7 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    >=
+    &&
+    gtxn 8 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    >=
+    &&
+    gtxn 9 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    >=
+    &&
+    gtxn 10 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    >=
+    &&
+    gtxn 11 Amount
+    load 11
+    *
+    load 10
+    /
+    load 12
+    >=
+    &&
+    //Save new owner
+    byte "owner"
+    gtxn 0 AssetReceiver
+    app_global_put
+    //Freeze contract
+    byte "contract_frozen"
+    int 1
+    app_global_put
+    return
+    
+    
+    
+    
+    
+    send_tx_to_artist:
+    byte "tx_sent_to_artist"
+    int 1
+    app_global_put
+    int 1
+    return
+    
+    
+    
+    
+    contract_frozen:
+    int 0
+    return
+    
+    unfreeze_contract:
+    byte "contract_frozen"
+    int 0
+    app_global_put
+    
+    byte "owner"
+    app_global_get
+    txn Sender
+    ==
+    return
+    
+    freeze_contract:
+    byte "contract_frozen"
+    int 1
+    app_global_put
+    
+    byte "owner"
+    app_global_get
+    txn Sender
+    ==
+    return
+    
+    
+    set_price:
+    byte "price"
+    txn ApplicationArgs 1
+    btoi
+    app_global_put
+    
+    byte "owner"
+    app_global_get
+    txn Sender
+    ==
+    return
+    
+    
+    creation:
+    // Save creator's address
+    byte "creator"
+    txn ApplicationArgs 0
+    app_global_put
+    //Save edition 
+    byte "edition"
+    txn ApplicationArgs 1
+    btoi
+    app_global_put
+    //Save if it is an AP edition
+    byte "ap_edition"
+    txn ApplicationArgs 2
+    btoi
+    app_global_put
+    //Save asset info
+    byte "asset_id"
+    txn ApplicationArgs 3
+    btoi
+    app_global_put
+    //Save ap_artist
+    byte "ap_artist"
+    txn ApplicationArgs 4
+    app_global_put
+    //Save Epoch's address
+    byte "epoch"
+    txn ApplicationArgs 5
+    app_global_put
+    //Save Gordon's Address
+    byte "Gordon"
+    txn ApplicationArgs 6
+    app_global_put
+    //Save Galath3a's address
+    byte "Galath3a"
+    txn ApplicationArgs 7
+    app_global_put
+    //Save Hung's address
+    byte "Hung"
+    txn ApplicationArgs 8
+    app_global_put
+    //Save Keiken's address
+    byte "Keiken"
+    txn ApplicationArgs 9
+    app_global_put
+    //Save Katja's address
+    byte "Katja"
+    txn ApplicationArgs 10
+    app_global_put
+    //Save Jennifer's address
+    byte "Jennifer"
+    txn ApplicationArgs 11
+    app_global_put
+    //Save Woo's address
+    byte "Woo"
+    txn ApplicationArgs 12
+    app_global_put
+    //Save Qianqian's address
+    byte "Qianqian"
+    txn ApplicationArgs 13
+    app_global_put
+    //Save Konrad's address
+    byte "Konrad"
+    txn ApplicationArgs 14
+    app_global_put
+    //Save Price information
+    byte "price"
+    int 0
+    app_global_put
+    //Save boolean for if the artist has received his ap edition
+    byte "tx_sent_to_artist"
+    int 0
+    app_global_put
+    //Save boolean to freeze or unfreeze contract
+    byte "contract_frozen"
+    int 0
+    app_global_put
+    
+    byte "owner"
+    txn ApplicationArgs 0
+    app_global_put
+    
+    int 1
+    return
+    
+    
+    
+    updateApp:
+    byte "creator"
+    app_global_get
+    txn Sender
+    ==
+    return
+    
+    DeleteApp:
+    byte "creator"
+    app_global_get
+    txn Sender
+    ==
+    return
+    
+    `
+    return new Promise(async(resolve,reject)=>{
+        try{
+            const results = await client.compile(replicantSource).do();
+            resolve(results)
+        }catch(error){
+           reject(error) 
+        }
+       
+    });
+}
+
+
+export  async function compileClearProgram(client){
+    var clearProgramSource=`#pragma version 4
+    int 1`
+    return new Promise(async(resolve,reject)=>{
+        try{
+            const results = await client.compile(clearProgramSource).do();
+            resolve(results)
+        }catch(error){
+           reject(error) 
+        }
+       
+    });
+}
+
+export  function updateApplication(appId, approvalProgram,clearProgram,params,from){
+    return{
+        ...params,
+        fee:1000,
+        flatFee: true,
+        type: "appl",
+        from,
+      appIndex: appId,
+      appOnComplete: 4,
+      appApprovalProgram: approvalProgram,
+      appClearProgram: clearProgram,
+    }
+  }

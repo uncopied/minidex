@@ -24,12 +24,21 @@ function HomeScreen(){
     let history = useHistory();
     return( <div  className ={classes.root}>
 ``              <Grid container spacing ={3}>
-                    <Grid item xs = {4}>
+                    {/* <Grid item xs = {4}>
                         <Paper elevation = {3} className = {classes.paper}>
                             <img src = {replicantImage} className = {classes.replicantImage}/>
                             <h1 className ={classes.itemTitle}>Replicant Nft</h1>
                             <Button variant ="contained" onClick = {moveToNftCreationScreen} color="primary"  className = {classes.itemButton}>
                                 Create Replicant Nft 
+                            </Button>
+                        </Paper>
+                    </Grid> */}
+                    <Grid item xs = {4}>
+                        <Paper elevation = {3} className = {classes.paper}>
+                            <img src = {replicantImage} className = {classes.replicantImage}/>
+                            <h1 className ={classes.itemTitle}>Replicant Nft</h1>
+                            <Button variant ="contained" onClick = {moveToNftManageScreen} color="primary"  className = {classes.itemButton}>
+                                Manage Replicant Nft 
                             </Button>
                         </Paper>
                     </Grid>
@@ -38,6 +47,10 @@ function HomeScreen(){
 
     function moveToNftCreationScreen(){
         history.push('/replicant-creation')
+    }
+
+    function moveToNftManageScreen(){
+        history.push('/replicant-manage')
     }
 }
 
