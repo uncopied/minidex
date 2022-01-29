@@ -17,6 +17,8 @@ import List from '@material-ui/core/List';
 import HomeIcon from '@material-ui/icons/Home';
 import CartIcon from '@material-ui/icons/ShoppingCart';
 import ApSales from './screens/ApSales';
+import ReplicantNftCreation from './screens/ReplicantNftCreation';
+import ManageReplicantNft from './screens/ManageReplicantNft';
 import Home from './screens/Home';
 
 import {BrowserRouter as Router,Switch,Route, useHistory} from 'react-router-dom';
@@ -30,12 +32,11 @@ function App(props) {
     bottom: false,
     right: false,
   });
-  const [pageTitle, setPageTitle]= React.useState('Epoch Home');
+  const [pageTitle, setPageTitle]= React.useState('Epoch Nfts');
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-  
     setState({ ...state, [anchor]: open });
   };
 
@@ -52,16 +53,15 @@ function App(props) {
                       <HomeIcon />
                       <ListItemText primary={"Epoch Home"} />
                     </ListItemIcon>
-
                   </ListItem>
-                  <ListItem button key = "Epoch AP Sales"
+                  <ListItem button key = "Replicant AP Sales"
                   onClick={(event)=>{
-                    setPageTitle("Epoch AP Sales"); 
+                    setPageTitle("Replicant AP Sales"); 
                     history.push("/apsales")
                   }}>
                   <ListItemIcon>
                       <CartIcon />
-                      <ListItemText primary={"Epoch AP Sales"} />
+                      <ListItemText primary={"Replicant AP Sales"} />
                     </ListItemIcon>
                   </ListItem>
               </List>
@@ -89,7 +89,21 @@ function App(props) {
         </Drawer>
     
         <Switch>
-            <Route path ="/apsales">
+            <Route path = "/replicant-creation">
+             {() =>  {
+              setPageTitle('Replicant Nft Creation');
+           return (<ReplicantNftCreation/>)
+             }}
+            </Route>
+
+            <Route path = "/replicant-manage">
+             {() =>  {
+              setPageTitle('Manage Replicant Nft');
+           return (<ManageReplicantNft/>)
+             }}
+            </Route>
+
+            <Route path = "/apsales">
               <ApSales/>
             </Route>
             <Route path = "/">
