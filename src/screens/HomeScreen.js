@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import replicantImage from '../assets/images/replicantImage.jpeg'
+import echoesImage from '../assets/images/echoesImage.png'
 import {Button,Typography,CircularProgress,LinearProgress} from '@material-ui/core';
 import {Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -28,29 +29,41 @@ function HomeScreen(){
                         <Paper elevation = {3} className = {classes.paper}>
                             <img src = {replicantImage} className = {classes.replicantImage}/>
                             <h1 className ={classes.itemTitle}>Replicant Nft</h1>
-                            <Button variant ="contained" onClick = {moveToNftCreationScreen} color="primary"  className = {classes.itemButton}>
+                            <Button variant ="contained" onClick = {moveToReplicantNftCreationScreen} color="primary"  className = {classes.itemButton}>
                                 Create Replicant Nft 
+                            </Button>
+                        </Paper>
+                    </Grid> */}
+                    {/* <Grid item xs = {4}>
+                        <Paper elevation = {3} className = {classes.paper}>
+                            <img src = {replicantImage} className = {classes.replicantImage}/>
+                            <h1 className ={classes.itemTitle}>Replicant Nft</h1>
+                            <Button variant ="contained" onClick = {moveToReplicantNftManageScreen} color="primary"  className = {classes.itemButton}>
+                                Manage Replicant Nft 
                             </Button>
                         </Paper>
                     </Grid> */}
                     <Grid item xs = {4}>
                         <Paper elevation = {3} className = {classes.paper}>
-                            <img src = {replicantImage} className = {classes.replicantImage}/>
-                            <h1 className ={classes.itemTitle}>Replicant Nft</h1>
-                            <Button variant ="contained" onClick = {moveToNftManageScreen} color="primary"  className = {classes.itemButton}>
-                                Manage Replicant Nft 
+                            <img src = {echoesImage} className = {classes.replicantImage}/>
+                            <h1 className ={classes.itemTitle}>Echoes Nft</h1>
+                            <Button variant ="contained" onClick = {moveToEchoesNftManageScreen} color="primary"  className = {classes.itemButton}>
+                                Manage Echoes Nft 
                             </Button>
                         </Paper>
                     </Grid>
                 </Grid>
         </div>)
 
-    function moveToNftCreationScreen(){
+    function moveToReplicantNftCreationScreen(){
         history.push('/replicant-creation')
     }
 
-    function moveToNftManageScreen(){
+    function moveToReplicantNftManageScreen(){
         history.push('/replicant-manage')
+    }
+    function moveToEchoesNftManageScreen(){
+        history.push('/manage-echoes')
     }
 }
 
