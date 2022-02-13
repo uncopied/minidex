@@ -26,8 +26,8 @@ function EchoesNftManagement({sender}){
     let signerAddress = []
     let epochAddress = "VTAUB5LOVTWKXICWEDBO5UG2JNNGEW7ULRB4PQB23DGRKSAXDVPORQNZJE";
     const token = { 'X-API-Key':'QIbtJ2qVvz8IUKIJiprmm2pRf2yutg14eOS98d15'};
-    const server = "https://testnet-algorand.api.purestake.io/ps2";
-    const baseServer = "https://testnet-algorand.api.purestake.io/idx2";
+    const server = "https://mainnet-algorand.api.purestake.io/ps2";
+    const baseServer = "https://mainnet-algorand.api.purestake.io/idx2";
     const port = '';
     const client = new algosdk.Algodv2(token, server, port);
     let indexerClient = new algosdk.Indexer(token, baseServer, port);
@@ -94,8 +94,22 @@ function EchoesNftManagement({sender}){
             setLoading(false);
             return;
         }
-        let asaS =   [70810863, 70500930];
-        let asaClawbackAddresses = ["IHEILHRSWRWB7V4EWGLNYVNMGZUIARNHTBUJEWSJ46KHMJGZALFYQM6GYU", "A4IKKZUSEGUHIVSI4QUFN4AQ2YKCPYO5G3BELHHYNIRWPXGRWOZI5LJWWQ" ];
+        let asaS =  [603960750, 603964812, 603964911, 603964993, 603965069, 603965212, 603965306, 603965386, 603965457, 603965554, 603965592, 603965647, 603965731];
+        let asaClawbackAddresses = [
+            '6B5GMARG5IMHEOHJDIRSVXSIXWVZKZQJSWJ6CTBLOWO7LTRU7XM3UKSJVI',
+            'J55PGB7LIL5YDL7IYE4QISFYCNA6PWDZ5NHG5SFVIZWRRWJDSGJ2IUDGUU',
+            'HSDGAGY42JFEDED5X3K3EYQADWBPKCWWVJPSS6E2EOJ4SIQO4FAW3PYZFA',
+            'BZTQL3JTFBUJHMJT7H3AM2NOKLQTQQUF26JSDFAIIBAM4NRA7DHEHJPOMA',
+            'ZI27F67DV4GQKXDZSPPVVYRWBYRSB6MAYWU45PHZ2BKSSKUW7Z4HHRVECQ',
+            '4RWD6W7VCHTVNNKBNA2CT6JD7AVPW7WOYS5ZSIYTKOSA77GDB357BVZQNQ',
+            'JKEMVB7DTART3YCD72N4LUWAPLZKPVNVE23FL6IECELEKGOZJDJR7EHFBA',
+            'NQHXDGIBYOWCIACLPCUZC3LMJ2IS2USVOOD5X7FKZQE2KCDBAHZFKRIBD4',
+            'NDVANXXURFPJUMTIZUPTI5YRDF5DKBKTBZN3TEOO4QGZKCLD6JVWR7VBVE',
+            'EKGEPH64APPKUZXTK3YZTD2YASXXS3FAOUZTWXGJVHBF2XMD27SVNPSYAQ',
+            '4NYV76ENOYYMTS56LZP4VGRBM4MRVCSQCWLHK7HTT6TPB22TP7L6SLQV2U',
+            '7IEQNS64CA322EBKFLXLIGFSYR36I4UACROIZDM2L2ZCPV7BT7YUSTRBQM',
+            'ETSWA6ZNIEATOXQHEUUSFLVAO6556OSALZ7K7BALQ2GS7ZQ5KFAMSWECWI'
+          ]
         let note = "Clawback Transaction"
         let params = {};
         try{
