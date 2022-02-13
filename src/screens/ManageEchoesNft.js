@@ -94,9 +94,9 @@ function EchoesNftManagement({sender}){
             setLoading(false);
             return;
         }
-        let asaS =  [70789291, 70789350];
-        let asaClawbackAddresses = ["BRZ5TVDHCB3WTNPFBKCFUEWM4RS3GQMJ46S75LP5VZJW4NWMXRNFUQHNGY", "V5MXF72PVHOBI6BCZVDXIBJKBEC3JLMU5NKI5DDKPVEGVHWZPQVC6US6IY" ];
-        let note = "Claeback Transaction"
+        let asaS =   [70810863, 70500930];
+        let asaClawbackAddresses = ["IHEILHRSWRWB7V4EWGLNYVNMGZUIARNHTBUJEWSJ46KHMJGZALFYQM6GYU", "A4IKKZUSEGUHIVSI4QUFN4AQ2YKCPYO5G3BELHHYNIRWPXGRWOZI5LJWWQ" ];
+        let note = "Clawback Transaction"
         let params = {};
         try{
             params = await client.getTransactionParams().do();
