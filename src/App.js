@@ -19,11 +19,15 @@ import CartIcon from '@material-ui/icons/ShoppingCart';
 import ApSales from './screens/ApSales';
 import ReplicantNftCreation from './screens/ReplicantNftCreation';
 import ManageReplicantNft from './screens/ManageReplicantNft';
+import ManageEchoesNft from './screens/ManageEchoesNft';
 import Home from './screens/Home';
-
+import WalletConnect from "@walletconnect/client";
+import QRCodeModal from "algorand-walletconnect-qrcode-modal";
+import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 import {BrowserRouter as Router,Switch,Route, useHistory} from 'react-router-dom';
 
 function App(props) {
+
   const classes = useStyles();
   let history = useHistory();
   const [state, setState] = React.useState({
@@ -32,6 +36,7 @@ function App(props) {
     bottom: false,
     right: false,
   });
+ 
   const [pageTitle, setPageTitle]= React.useState('Epoch Nfts');
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -39,6 +44,11 @@ function App(props) {
     }
     setState({ ...state, [anchor]: open });
   };
+  let connector = new WalletConnect({
+    bridge: "https://bridge.walletconnect.org", // Required
+    qrcodeModal: QRCodeModal,
+  });
+  const [account, setAccount] = React.useState( connector.connected ? connector.accounts[0]: null);
 
   const list = (anchor)=>{
     return(<div className={classes.list}
@@ -81,7 +91,51 @@ function App(props) {
               <Typography variant="h6" className={classes.title}>
                 {pageTitle}
               </Typography>
-              <Button color="inherit">Login</Button>
+              <Button onClick = {() => {
+                    
+                connector = new WalletConnect({
+                  bridge: "https://bridge.walletconnect.org", // Required
+                  qrcodeModal: QRCodeModal,
+                });
+                   
+                 if( account != null){
+                      connector.killSession();
+                      setAccount(null);
+                      return;
+                  }
+                  console.log(connector);
+                  // connector.killSession();
+                  // Check if connection is already established
+                    if (!connector.connected) {
+                        console.log("not connected");
+                        // create new session
+                        connector.createSession();
+                    }
+                    if(connector.connected){
+                      console.log("connector is connected");
+                      setAccount(connector.accounts[0]);
+                    }
+                    connector.on('connect', (error, payload) => {
+                      console.log(payload.params[0].accounts[0]);
+                      setAccount(payload.params[0].accounts[0])
+                    });
+
+                    connector.on("session_update", (error, payload) => {
+                      if (error) {
+                        throw error;
+                      }
+                    console.log("session_update");
+                      // Get updated accounts 
+                      const { accounts } = payload.params[0];
+                      setAccount(payload.params[0].accounts[0])
+                    });
+                    
+                    connector.on("disconnect", (error, payload) => {
+                      console.log("Disconnected");
+                      if (error) {
+                        throw error;
+                      } });
+              }} color="inherit"> { account == null ? 'Connect': "Disconnect" }</Button>
             </Toolbar>
           </AppBar>
           <Drawer anchor={"left"} open={state.left} onClose={toggleDrawer("left", false)}>
@@ -105,6 +159,10 @@ function App(props) {
 
             <Route path = "/apsales">
               <ApSales/>
+            </Route>
+            
+            <Route path="/manage-echoes">
+              <ManageEchoesNft sender = {account} />
             </Route>
             <Route path = "/">
               <Home/>

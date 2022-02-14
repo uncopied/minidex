@@ -343,7 +343,7 @@ export const replicantAsaInfo =[
 
 ]
 
-export function getAsaToClawbackInfo(params,sender, assetFreeze,assetManager,assetReserve,assetClawback){
+export function getReplicantAsaToClawbackInfo(params,sender, assetFreeze,assetManager,assetReserve,assetClawback){
     const asaArray = [386913126, 386913127, 386913128, 386913129, 386913130, 386913131, 386913132, 386913133, 386913134, 386913135, 386913136, 386913137, 386913138, 386913139, 386913140, 386913141, 386913521, 386913522, 386913523, 386913524, 386913525, 386913526, 386913527, 386913528, 386913529, 386913530, 386913531, 386913532, 386913533,  386913534  ];
     let assetClawbackAddresses = [
         'I4ZSBYX3VWK2YTXJUL5OYGHSGWMDFUKAGIYVMKJ2IYKL6BAIMOIDXMQXIU',
@@ -1081,3 +1081,20 @@ export  function updateApplication(appId, approvalProgram,clearProgram,params,fr
       appClearProgram: clearProgram,
     }
   }
+
+  export async function getAssetClawbackTxn(sender, params, clawback, note, assetId, algosdk) {
+    note = new Uint8Array(Buffer.from(note,"base64"));
+    let ctxn = algosdk.makeAssetConfigTxnWithSuggestedParams(sender, note, 
+        assetId, sender, sender, sender, clawback, params);
+    return ctxn;
+}
+
+
+export async function groupTxns(txns, algosdk){
+    let groupId = algosdk.computeGroupID(txns);
+    txns = txns.map((el)=>{
+        el.group=groupId;
+        return el;
+        });
+    return txns;
+}

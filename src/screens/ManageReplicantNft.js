@@ -17,7 +17,7 @@ import QRCodeModal from "algorand-walletconnect-qrcode-modal";
 import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 import { Buffer } from 'buffer';
 import Home from './Home';
-import {createAsa,clawbackAsa,connectToWallet,isConnected,replicantAsaInfo,getAsaToClawbackInfo, compileClearProgram, compileReplicantProgram, updateApplication} from '../utils/utils';
+import {createAsa,clawbackAsa,connectToWallet,isConnected,replicantAsaInfo,getReplicantAsaToClawbackInfo, compileClearProgram, compileReplicantProgram, updateApplication} from '../utils/utils';
 
 
 function ReplicantNftCreation(){
@@ -361,7 +361,7 @@ function ReplicantNftCreation(){
             setDialogDescription(JSON.stringify(error));
             setLoading(false);
         } 
-        let txnsToSign = getAsaToClawbackInfo(params,epochAddress,epochAddress,epochAddress,epochAddress,epochAddress).map((el,index) => {
+        let txnsToSign = getReplicantAsaToClawbackInfo(params,epochAddress,epochAddress,epochAddress,epochAddress,epochAddress).map((el,index) => {
             if(index < 16){
                 return el;
             }
@@ -434,7 +434,7 @@ function ReplicantNftCreation(){
             setDialogDescription(JSON.stringify(error));
             setLoading(false);
         } 
-        let txnsToSign = getAsaToClawbackInfo(params,epochAddress,epochAddress,epochAddress,epochAddress,epochAddress).map((el,index) => {
+        let txnsToSign = getReplicantAsaToClawbackInfo(params,epochAddress,epochAddress,epochAddress,epochAddress,epochAddress).map((el,index) => {
             if(index >= 16 && index < 30){
                 return el;
             }
@@ -732,7 +732,7 @@ function ReplicantNftCreation(){
                 // Get provided accounts
                 const { accounts } = payload.params[0];
                 console.log(accounts,"connect");
-                getAsaToClawbackInfo(params,accounts[0],accounts[0],accounts[0],accounts[0],accounts[0]).map((el,index) => {
+                getReplicantAsaToClawbackInfo(params,accounts[0],accounts[0],accounts[0],accounts[0],accounts[0]).map((el,index) => {
                     if(index >= 16 && index < 30){
                         txns.push(algosdk.makeAssetConfigTxnWithSuggestedParams(accounts[0], el.note, 
                             el.assetIndex, accounts[0], accounts[0], accounts[0], el.assetClawback, params));
@@ -844,7 +844,7 @@ function ReplicantNftCreation(){
                 // Get provided accounts
                 const { accounts } = payload.params[0];
                 console.log(accounts,"connect");
-                getAsaToClawbackInfo(params,accounts[0],accounts[0],accounts[0],accounts[0],accounts[0]).map((el,index) => {
+                getReplicantAsaToClawbackInfo(params,accounts[0],accounts[0],accounts[0],accounts[0],accounts[0]).map((el,index) => {
                     if(index < 16){
                         txns.push(algosdk.makeAssetConfigTxnWithSuggestedParams(accounts[0], el.note, 
                             el.assetIndex, accounts[0], accounts[0], accounts[0], el.assetClawback, params));

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import replicantImage from '../assets/images/replicantImage.jpeg'
+import echoesImage from '../assets/images/echoesImage.png'
 import {Button,Typography,CircularProgress,LinearProgress} from '@material-ui/core';
 import {Grid} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,10 +17,12 @@ import QRCodeModal from "algorand-walletconnect-qrcode-modal";
 import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
 import { Buffer } from 'buffer';
 import Home from './Home';
-import {createAsa,clawbackAsa,connectToWallet,isConnected,replicantAsaInfo,getReplicantAsaToClawbackInfo} from '../utils/utils';
+import {createAsa,clawbackAsa,connectToWallet,isConnected,replicantAsaInfo,
+    getReplicantAsaToClawbackInfo, compileClearProgram,
+     compileReplicantProgram, updateApplication,  getAssetClawbackTxn, groupTxns} from '../utils/utils';
 
 
-function ReplicantNftCreation(){
+function EchoesNftManagement({sender}){
     let signerAddress = []
     let epochAddress = "VTAUB5LOVTWKXICWEDBO5UG2JNNGEW7ULRB4PQB23DGRKSAXDVPORQNZJE";
     const token = { 'X-API-Key':'QIbtJ2qVvz8IUKIJiprmm2pRf2yutg14eOS98d15'};
@@ -59,42 +61,113 @@ function ReplicantNftCreation(){
                             </Button>
                             </DialogActions>
                         </Dialog>
-                        <h1 className ={classes.itemTitle}>Create and Configure Replicant NFTS</h1>
-                            <img src = {replicantImage} className = {classes.replicantImage}/>
-                            <h1 className ={classes.itemTitle}>Kindly click on the respective buttons to create completely the Replicant Nfts</h1>
+                        <h1 className ={classes.itemTitle}>Configure Echoes NFTS</h1>
+                            <img src = {echoesImage} className = {classes.echoesImage}/>
+                            <h1 className ={classes.itemTitle}>Kindly click on the respective buttons to update the Echoes Nfts</h1>
                         </Paper>
                     </Grid>
-                    <Grid item xs = {6} className = {classes.centerGridItem}>
-                    <Button onClick = {create16OfReplicantNftsUsingWalletConnect} variant ="contained" color="primary"  className = {classes.itemButton}>
-                            Create 16 of the Replicant Nfts 
-                    </Button>
+                    <Grid item xs = {12} className = {classes.centerGridItem}>
+                        <Grid item xs = {6} className = {classes.centerGridItem}>
+                        <Button onClick = {clawbackEchoesNft} variant ="contained" color="primary"  className = {classes.itemButton}>
+                                Clawback 13 of the Echoes Nfts 
+                        </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs = {6}  className = {classes.centerGridItem}>
-                    <Button onClick = {create14OfReplicantNftsUsingWalletConnect} variant ="contained" color="primary"  className = {classes.itemButton}>
-                            Create the remaining 14 of the Replicant Nfts
+                  
+                    {/* <Grid item xs = {6}  className = {classes.centerGridItem}>
+                    <Button onClick = {updateTheRemaining14OfTheNft} variant ="contained" color="primary"  className = {classes.itemButton}>
+                            Update the remaining 14 of the Echoes Nfts
                     </Button>
-                    </Grid>
+                    </Grid> */}
                     
-
-                    <Grid item xs = {6} className = {classes.centerGridItem}>
-                    <Button onClick = {clawback16OfReplicantNftsUsingWalletConnect} variant ="contained" color="primary"  className = {classes.itemButton}>
-                            Clawback 16 of the Replicant Nfts
-                    </Button>
-                    </Grid>
-                    <Grid item xs = {6}  className = {classes.centerGridItem}>
-                    <Button onClick = {clawback14OfReplicantNftsUsingWalletConnect} variant ="contained" color="primary"  className = {classes.itemButton}>
-                            Clawback the remaining 14 of the Replicant Nfts
-                    </Button>
-                    </Grid>
                 </Grid>
             </div>);
 
 
-    async function Create16OfReplicantNft(){
 
+    async function clawbackEchoesNft(){
+        setLoading(true)
+        if(sender == null){
+            controlDialog(true);
+            setDialogTitle("Error");
+            setDialogDescription("Please click login to connect with official algorand wallet");
+            setLoading(false);
+            return;
+        }
+        let asaS =  [603960750, 603964812, 603964911, 603964993, 603965069, 603965212, 603965306, 603965386, 603965457, 603965554, 603965592, 603965647, 603965731];
+        let asaClawbackAddresses = [
+            '6B5GMARG5IMHEOHJDIRSVXSIXWVZKZQJSWJ6CTBLOWO7LTRU7XM3UKSJVI',
+            'J55PGB7LIL5YDL7IYE4QISFYCNA6PWDZ5NHG5SFVIZWRRWJDSGJ2IUDGUU',
+            'HSDGAGY42JFEDED5X3K3EYQADWBPKCWWVJPSS6E2EOJ4SIQO4FAW3PYZFA',
+            'BZTQL3JTFBUJHMJT7H3AM2NOKLQTQQUF26JSDFAIIBAM4NRA7DHEHJPOMA',
+            'ZI27F67DV4GQKXDZSPPVVYRWBYRSB6MAYWU45PHZ2BKSSKUW7Z4HHRVECQ',
+            '4RWD6W7VCHTVNNKBNA2CT6JD7AVPW7WOYS5ZSIYTKOSA77GDB357BVZQNQ',
+            'JKEMVB7DTART3YCD72N4LUWAPLZKPVNVE23FL6IECELEKGOZJDJR7EHFBA',
+            'NQHXDGIBYOWCIACLPCUZC3LMJ2IS2USVOOD5X7FKZQE2KCDBAHZFKRIBD4',
+            'NDVANXXURFPJUMTIZUPTI5YRDF5DKBKTBZN3TEOO4QGZKCLD6JVWR7VBVE',
+            'EKGEPH64APPKUZXTK3YZTD2YASXXS3FAOUZTWXGJVHBF2XMD27SVNPSYAQ',
+            '4NYV76ENOYYMTS56LZP4VGRBM4MRVCSQCWLHK7HTT6TPB22TP7L6SLQV2U',
+            '7IEQNS64CA322EBKFLXLIGFSYR36I4UACROIZDM2L2ZCPV7BT7YUSTRBQM',
+            'ETSWA6ZNIEATOXQHEUUSFLVAO6556OSALZ7K7BALQ2GS7ZQ5KFAMSWECWI'
+          ]
+        let note = "Clawback Transaction"
+        let params = {};
+        try{
+            params = await client.getTransactionParams().do();
+        }catch(error){
+            controlDialog(true);
+            setDialogTitle("Error");
+            setDialogDescription(JSON.stringify(error));
+            setLoading(false);
+            return;
+        } 
+        let asaClawbackTxns = await Promise.all(asaClawbackAddresses.map(async (el, index) => {
+           return await getAssetClawbackTxn(sender, params, el, note, asaS[index], algosdk)
+        }));
+
+        let groupedAsaClawbackTxns = await  groupTxns(asaClawbackTxns, algosdk);
+
+        const txnsToSign = groupedAsaClawbackTxns.map(txn => {
+            const encodedTxn = Buffer.from(algosdk.encodeUnsignedTransaction(txn)).toString("base64");
+            return {
+              txn: encodedTxn,
+              message: 'Description of transaction being signed',
+            };
+          });
+          console.log(txnsToSign,"txnsTosIGN")
+          const requestParams = [txnsToSign];
+          console.log(requestParams);
+          const request = formatJsonRpcRequest("algo_signTxn", requestParams);
+          console.log(request,"request");
+          const connector = new WalletConnect({
+            bridge: "https://bridge.walletconnect.org", // Required
+            qrcodeModal: QRCodeModal,
+          });
+         const result = await connector.sendCustomRequest(request);
+          console.log(result,"Result");
+          const decodedResult = result.map(element => {
+            return element ? new Uint8Array(Buffer.from(element, "base64")) : null;
+          });
+
+        let txTest={};
+        try{
+            txTest=(await client.sendRawTransaction(decodedResult).do());
+            console.log(txTest);
+            setLoading(false);
+            controlDialog(true);
+            setDialogTitle("Transaction Success");
+            setDialogDescription(JSON.stringify(`Transaction successful with transaction id: ${txTest.txId}`));
+          }catch(error){
+            console.error("Error ocurred ", error);
+            controlDialog(true);
+            setDialogTitle("Error");
+            setDialogDescription(JSON.stringify(error));
+            setLoading(false);
+            return;
+            }     
     }
 
-   async function create16OfReplicantNFTsUsingMyAlgo(){
+     async function update16OfTheNft(){
         let myalgoconnect = new MyAlgoConnect();
         if(signerAddress.length == 0){
             setLoading(true)
@@ -114,7 +187,18 @@ function ReplicantNftCreation(){
         //     return;
         // }
         epochAddress = signerAddress[0].address;
-        let params = {}
+        let compiledApprovalProgram = await compileReplicantProgram(client);
+        let compiledClearProgram = await compileClearProgram(client);
+
+        console.log(compiledApprovalProgram);
+        console.log(compiledClearProgram)
+
+        let approvalProgram =  new Uint8Array(Buffer.from(compiledApprovalProgram.result,"base64"));
+        let clearProgram =  new Uint8Array(Buffer.from(compiledClearProgram.result,"base64"));
+
+        console.log(approvalProgram);
+        console.log(clearProgram);
+        let params = {};
         try{
             params = await client.getTransactionParams().do();
         }catch(error){
@@ -123,52 +207,145 @@ function ReplicantNftCreation(){
             setDialogDescription(JSON.stringify(error));
             setLoading(false);
         } 
-        console.log(params);
-        let txnsToSign = [];
-        replicantAsaInfo.map((el,index) => {
+        let appIds = [387031352, 387031353, 387031354, 387031355, 387031356, 387031357, 387031358, 387031359, 387031360, 387031361, 387031362, 387031363, 387031364, 387031365, 387031366, 387034557, 387034558, 387034559, 387034560, 387034561, 387034562, 387161797, 387166820, 387169663, 387171644, 387175171, 387176902, 387179258, 387181363, 387185953 ];
+        
+        let updateAppTxns =  [];
+        appIds.map((el, index) => {
             if(index < 16){
-                txnsToSign.push(createAsa(params, epochAddress, el.name, el.unit ,el.decimals, el.total, el.url, epochAddress, epochAddress, epochAddress, true, el.metadataHash, el.note))
-            }  
+            let   updateAppTxn =   updateApplication(el, approvalProgram,clearProgram,params,epochAddress);
+            updateAppTxns.push(updateAppTxn);
+            }
         })
-       console.log(txnsToSign.length);
-       console.log(txnsToSign);
 
-       let groupId = algosdk.computeGroupID(txnsToSign);
-       txnsToSign = txnsToSign.map((el) => {
-                el.group=groupId;
-                return el;
-                });
-        let signedTxns = {};
-        try{
-            signedTxns =  await myalgoconnect.signTransaction(txnsToSign);
-        }catch(error){
-            console.error("Error ocurred ", error);
-            alert(error)
-            setLoading(false);
+        console.log(updateAppTxns);
+        let groupId = algosdk.computeGroupID(updateAppTxns);
+        updateAppTxns = updateAppTxns.map((el) => {
+                 el.group=groupId;
+                 return el;
+                 });
+         let signedTxns = {};
+         try{
+             signedTxns =  await myalgoconnect.signTransaction(updateAppTxns);
+         }catch(error){
+             console.error("Error ocurred ", error);
+             alert(error)
+             setLoading(false);
+         }
+         let blobs = signedTxns.map((el,index)=>{
+             return el.blob
+         });
+         console.log(blobs);
+        
+         let txTest={};
+         try{
+             txTest=(await client.sendRawTransaction(blobs).do());
+             console.log(txTest);
+             setLoading(false);
+             controlDialog(true);
+             setDialogTitle("Transaction Success");
+             setDialogDescription(JSON.stringify(`Transaction successful with transaction id: ${txTest.txId}`));
+           }catch(error){
+             console.error("Error ocurred ", error);
+             controlDialog(true);
+             setDialogTitle("Error");
+             setDialogDescription(JSON.stringify(error));
+             setLoading(false);
+             return;
+             }     
+         
+      
+     }
+
+     async function updateTheRemaining14OfTheNft(){
+        let myalgoconnect = new MyAlgoConnect();
+        if(signerAddress.length == 0){
+            setLoading(true)
+            try{
+                signerAddress = await isConnected(signerAddress,myalgoconnect);
+            }catch(error){
+                setLoading(false);
+                controlDialog(true);
+                setDialogTitle("Error");
+                setDialogDescription(JSON.stringify(error));
+                return;
+            }
         }
-        let blobs = signedTxns.map((el,index)=>{
-            return el.blob
-        });
-        console.log(blobs);
-       
-        let txTest={};
+        // if(signerAddress[0] != epochAddress){
+        //     alert(`The address ${signerAddress[0].address} does not match the epoch address`);
+        //     console.log(signerAddress[0])
+        //     return;
+        // }
+        epochAddress = signerAddress[0].address;
+        let compiledApprovalProgram = await compileReplicantProgram(client);
+        let compiledClearProgram = await compileClearProgram(client);
+
+        console.log(compiledApprovalProgram);
+        console.log(compiledClearProgram)
+
+        let approvalProgram =  new Uint8Array(Buffer.from(compiledApprovalProgram.result,"base64"));
+        let clearProgram =  new Uint8Array(Buffer.from(compiledClearProgram.result,"base64"));
+
+        console.log(approvalProgram);
+        console.log(clearProgram);
+        let params = {};
         try{
-            txTest=(await client.sendRawTransaction(blobs).do());
-            console.log(txTest);
-            setLoading(false);
-            controlDialog(true);
-            setDialogTitle("Transaction Success");
-            setDialogDescription(JSON.stringify(`Transaction successful with transaction id: ${txTest.txId}`));
-          }catch(error){
-            console.error("Error ocurred ", error);
+            params = await client.getTransactionParams().do();
+        }catch(error){
             controlDialog(true);
             setDialogTitle("Error");
             setDialogDescription(JSON.stringify(error));
             setLoading(false);
-            return;
-            }     
+        } 
+        let appIds = [387031352, 387031353, 387031354, 387031355, 387031356, 387031357, 387031358, 387031359, 387031360, 387031361, 387031362, 387031363, 387031364, 387031365, 387031366, 387034557, 387034558, 387034559, 387034560, 387034561, 387034562, 387161797, 387166820, 387169663, 387171644, 387175171, 387176902, 387179258, 387181363, 387185953 ];
         
-    }
+        let updateAppTxns =  [];
+        appIds.map((el, index) => {
+            if(index >= 16 && index < 30){
+            let   updateAppTxn =   updateApplication(el, approvalProgram,clearProgram,params,epochAddress);
+            updateAppTxns.push(updateAppTxn);
+            }
+        })
+
+        console.log(updateAppTxns);
+        let groupId = algosdk.computeGroupID(updateAppTxns);
+        updateAppTxns = updateAppTxns.map((el) => {
+                 el.group=groupId;
+                 return el;
+                 });
+         let signedTxns = {};
+         try{
+             signedTxns =  await myalgoconnect.signTransaction(updateAppTxns);
+         }catch(error){
+             console.error("Error ocurred ", error);
+             alert(error)
+             setLoading(false);
+         }
+         let blobs = signedTxns.map((el,index)=>{
+             return el.blob
+         });
+         console.log(blobs);
+        
+         let txTest={};
+         try{
+             txTest=(await client.sendRawTransaction(blobs).do());
+             console.log(txTest);
+             setLoading(false);
+             controlDialog(true);
+             setDialogTitle("Transaction Success");
+             setDialogDescription(JSON.stringify(`Transaction successful with transaction id: ${txTest.txId}`));
+           }catch(error){
+             console.error("Error ocurred ", error);
+             controlDialog(true);
+             setDialogTitle("Error");
+             setDialogDescription(JSON.stringify(error));
+             setLoading(false);
+             return;
+             }     
+         
+      
+     }
+
+  
     async function createRemaining14OfReplicantNFTs(){
         let myalgoconnect = new MyAlgoConnect();
         if(signerAddress.length == 0){
@@ -873,7 +1050,7 @@ const useStyles = makeStyles((theme) => ({
         left:'50%'
 
     },
-    replicantImage: {
+    echoesImage: {
         width: '80%',
         height: '340px',
         borderRadius:'5px',
@@ -896,6 +1073,8 @@ const useStyles = makeStyles((theme) => ({
     },
     centerGridItem:{
         textAlign: 'center',
+        marginLeft: "auto",
+        marginRight: "auto"
     },
     itemButton:{
         marginLeft:'auto',
@@ -905,7 +1084,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-export default ReplicantNftCreation;
+export default EchoesNftManagement;
 
 
 
